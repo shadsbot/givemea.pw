@@ -8,7 +8,53 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>GiveMeA.PW: Password Generator</title>
 	</HEAD>
-	<BODY>
-		<h1>Hello World</h1>
+	<BODY onload="generatePassword()">
+		<h1 id="pw"></h1>
+		Parameters:<br />
+		<input type="checkbox" value="true" checked disabled id="alpha"  /> [A-Z]<br />
+		<input type="checkbox" value="true" id="numeric" checked="checked" /> [0-9]<br />
+		<input type="checkbox" value="true" id="special" checked="checked" /> Special Characters (!@#$%^&*-_ etc)<br />
+		<input type="checkbox" value="true" id="spaces" /> Include spaces<br />
+		<input type="number" value=32 id="length" /> Length<br />
+		<input type="button" onClick="generatePassword()" value="Generate New Password" />
+		<script>
+		// Options:
+		// 0: Include numeric
+		// 1: Include special
+		// 2: Include spaces
+		// 3: Password length (default 16)
+
+		function generatePassword() {
+			var alpha = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+			var numeric = "0123456789";
+			var special = "\"\'!-.,/\\[]{}:;@#$%^&*()_-+=|/?";
+			var spaces = " ";
+
+			var charset = alpha; // Force alpha by default
+
+			options = [
+				document.getElementById("numeric").checked,
+				document.getElementById("special").checked,
+				document.getElementById("spaces").checked,
+				document.getElementById("length").value
+				];
+
+			if(options[0]) { charset += numeric; }
+			if(options[1]) { charset += special; }
+			if(options[2]) { charset += spaces; }
+
+			var password = "";
+			for (var i = 0, n = options[3]; i < n; ++i) {
+				password += charset.charAt(Math.floor(Math.random() * charset.length));
+			}
+			document.getElementById("pw").innerText = password;
+		}
+		</script>
+		<style>
+			h1 {
+				font-size:3rem;
+				text-align:center;
+			}
+		</style>
 	</BODY>
 </HTML>
